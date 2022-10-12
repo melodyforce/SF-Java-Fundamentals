@@ -21,6 +21,14 @@
         </plugins>
     </build>
 
+<!--    <dependencies>
+        <dependency>
+            <groupId>org.apache.spark</groupId>
+            <artifactId>spark-core_2.12</artifactId>
+            <version>LATEST</version>
+        </dependency>
+    </dependencies> -->
+
     <properties>
         <maven.compiler.source>19</maven.compiler.source>
         <maven.compiler.target>19</maven.compiler.target>

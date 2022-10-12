@@ -25,7 +25,9 @@ public class Date {
 
 //  public Date(int day, int month, int year) {
   public Date(int day, Month month, int year) {
-    // validate?
+    if (!validate(day, month, year)) {
+      throw new IllegalArgumentException("Bad date values");
+    }
     this.day = day;
     this.month = month;
     this.year = year;
@@ -62,17 +64,98 @@ public class Date {
 //  }
 
   // List.of creates an unmodifiable list (since Java 9)
-  public static final List<Integer> daysInMonth =
-      List.of(31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31);
+//  public static final List<Integer> daysInMonth =
+//      List.of(31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31);
+//
+//  public static int daysInMonth(Month month, int year) {
+//    int index = month.ordinal();
+//    return month == Month.FEBRUARY && isLeapYear(year)
+//        ? 29
+//        : daysInMonth.get(index);
+//  }
+//
+
+//  private static final int[] daysInMonth =
+//      { 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 };
+//
+//  public static int daysInMonth(Month month, int year) {
+//    int index = month.ordinal();
+//    return month == Month.FEBRUARY && isLeapYear(year)
+//        ? 29
+//        : daysInMonth[index];
+//  }
+//
+
+//  public static int daysInMonth(Month month, int year) {
+//    // most Java permits switch on int and smaller numerics
+//    // String, and enum
+//    switch (month) {
+////      case Month.APRIL:
+//// standard case requires "short form" of enum constants
+//      case SEPTEMBER: // falls through if no break, allows "alternation"
+//      case APRIL:
+//      case JUNE:
+//      case NOVEMBER:
+//        return 30; // return avoids need for break!!!
+//      case FEBRUARY:
+//        return isLeapYear(year) ? 29 : 28;
+//      default:
+//        return 31;
+//    }
+//  }
+
+//  public static int daysInMonth(Month month, int year) {
+//    // most Java permits switch on int and smaller numerics
+//    // String, and enum
+//    int dayCount;
+//    switch (month) {
+////      case Month.APRIL:
+//// standard case requires "short form" of enum constants
+//      case SEPTEMBER: // falls through if no break, allows "alternation"
+//      case APRIL:
+//      case JUNE:
+//      case NOVEMBER:
+//        dayCount = 30;
+//        break; // nasty, but necessary, very error-prone
+////        return 30; // return avoids need for break!!!
+//      case FEBRUARY:
+//        dayCount = isLeapYear(year) ? 29 : 28;
+//        break;
+////        return isLeapYear(year) ? 29 : 28;
+//      default:
+//        dayCount = 31;
+//        break;
+////        return 31;
+//    }
+//    return dayCount;
+//  }
+
+//  public static int daysInMonth(Month month, int year) {
+//    int dayCount;
+//    switch (month) {
+//      // single statement / expression required on RHS of -> use {} to group
+//      case SEPTEMBER, APRIL, JUNE, NOVEMBER -> {
+//        System.out.println("it's 30 days");
+//        dayCount = 30;
+//      }
+//      case FEBRUARY -> dayCount = isLeapYear(year) ? 29 : 28;
+//      default -> dayCount = 31;
+//    }
+//    return dayCount;
+//  }
 
   public static int daysInMonth(Month month, int year) {
-    int index = month.ordinal();
-    return month == Month.FEBRUARY && isLeapYear(year)
-        ? 29
-        : daysInMonth.get(index);
+    return switch (month) {
+      case SEPTEMBER, APRIL, JUNE, NOVEMBER -> {
+        System.out.println("It's thirty");
+        yield 30;
+      }
+      case FEBRUARY -> isLeapYear(year) ? 29 : 28;
+      default -> 31;
+    };
   }
 
-//  public static boolean validate(int day, int month, int year) {
+  //  public static boolean validate(int day, int month, int year) {
   public static boolean validate(int day, Month month, int year) {
     return day > 0 && day <= daysInMonth(month, year);
   }
