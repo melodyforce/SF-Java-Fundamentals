@@ -15,7 +15,12 @@ interface StudyPerson {
   }
 }
 
-class VIPStudent implements StudyPerson {
+interface Nameable {
+  String getName();
+//  String getHandle();
+}
+
+/*abstract */class VIPStudent implements StudyPerson, Nameable {
   private String name;
   private double gpa;
 
@@ -23,6 +28,8 @@ class VIPStudent implements StudyPerson {
     this.name = name;
     this.gpa = gpa;
   }
+
+//  public abstract String getHandle();
 
   public static StudyPerson of(String name, double gpa) {
     return new VIPStudent(name, gpa);

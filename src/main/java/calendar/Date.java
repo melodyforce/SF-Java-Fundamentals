@@ -52,6 +52,35 @@ public class Date {
     return year % 4 == 0 && year % 100 != 0 || year % 400 == 0;
   }
 
+  // much nicer than setDayOfMonth... (but incomplete)
+  public void setLastOfMonth() {
+    this.day = daysInMonth(this.month, this.year);
+  }
+
+  // also, caller cannot fail (if implemented correctly)
+//  public void addDays(int days) {
+//    int newDay = this.day + days;
+//    // wrap end of month(s) and years!!!!
+//
+//  }
+
+  // this method is nasty (but almost always provided!!)
+  public void setDayOfMonth(int day) {
+    if (!validate(day, month, year)) {
+      throw new IllegalArgumentException("Bad date values");
+    }
+    this.day = day;
+  }
+
+  public void setMonth(Month month) {
+    // must validate! what if we're setting month to FEBRUARY
+    // and day is already 30??
+    if (!validate(day, month, year)) {
+      throw new IllegalArgumentException("Bad date values");
+    }
+    this.month = month;
+  }
+
 //  public static int daysInMonth(int month, int year) {
 //    if (month < 1 || month > 12) throw new IllegalArgumentException("Bad Month");
 //    if (month == 9 || month == 4 || month == 6 || month == 11) {
