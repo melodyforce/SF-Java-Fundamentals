@@ -52,7 +52,7 @@ public class Date {
     return year % 4 == 0 && year % 100 != 0 || year % 400 == 0;
   }
 
-  // much nicer than setDayOfMonth... (but incomplete)
+  // much nicer than setDayOfMonth...
   public void setLastOfMonth() {
     this.day = daysInMonth(this.month, this.year);
   }
