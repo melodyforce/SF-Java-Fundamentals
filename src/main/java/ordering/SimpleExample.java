@@ -1,5 +1,6 @@
 package ordering;
 
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -21,6 +22,10 @@ class ReverseMontOrder implements Comparator<Date> {
 
 public class SimpleExample {
   public static void compareFirstTwo(List<Date> ld, Comparator<Date> cd) {
+    // Java DOES NOT have "function literals"...
+    // EVEN IF cd came from a lambda, cd is STILL AN OBJECT TYPE
+//    int order = cd(ld.get(0), ld.get(1));
+    // so we must name the method to be invoked
     int order = cd.compare(ld.get(0), ld.get(1));
     System.out.println("order is " + order);
   }
@@ -94,16 +99,44 @@ public class SimpleExample {
     // AND we're not trying to create any fields or member classes
     // THEN we don't need to group multiple class elements
     // AND we know the method that we are implementing
-    ld.sort(/*new
-     Comparator<Date>(-- any necessary constructor args go here ) */ /*{*/
-      /*@Override
-      public int compare*/(Date o1, Date o2) -> {
-        return o1.getMonth() - o2.getMonth();
-      }
-    /*}*/
-        );
+//    ld.sort(/*new
+//     Comparator<Date>(-- any necessary constructor args go here ) */ /*{*/
+//      /*@Override
+//      public int compare*/(Date o1, Date o2) -> {
+//        return o1.getMonth() - o2.getMonth();
+//      }
+//    /*}*/
+//        );
+
+    // Lambda expression
+//    ld.sort((Date o1, Date o2) -> {
+//          return o1.getMonth() - o2.getMonth();
+//        }
+//    );
+
+//    ld.sort((o1, o2) -> {
+//          return o1.getMonth() - o2.getMonth();
+//        }
+//    );
+
+//    ld.sort((@Deprecated var o1, var o2) -> {
+//          return o1.getMonth() - o2.getMonth();
+//        }
+//    );
+
+    Comparator<Date> ascendingMonthOnlyOrder =
+        (d1, d2) -> d1.getMonth() - d2.getMonth();
+    ld.sort(ascendingMonthOnlyOrder);
+
     showAllDates(ld);
 
+    Comparator<Date> obj = (d1, d2) -> d1.getMonth() - d2.getMonth();
 
+    System.out.println("class of obj is " + obj.getClass());
+    Class<?> cl = obj.getClass();
+    Method [] methods = cl.getMethods();
+    for (Method m : methods) {
+      System.out.println("> " + m);
+    }
   }
 }
